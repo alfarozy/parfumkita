@@ -23,7 +23,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Edit @yield('title')</h1>
+                        <h1>Create @yield('title')</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -50,18 +50,16 @@
                                 </div>
                             </div>
 
-                            <form method="POST" action="{{ route('product.update', $product->id) }}"
-                                enctype="multipart/form-data" autocomplete="off">
+                            <form method="POST" action="{{ route('product.store') }}" enctype="multipart/form-data"
+                                autocomplete="off">
                                 @csrf
-                                @method('PUT')
                                 <div class="card-body">
                                     <div class="row">
                                         <!-- Left Side -->
                                         <div class="col-md-8">
                                             <div class="form-group">
                                                 <label>Nama produk</label>
-                                                <input type="text" name="name"
-                                                    value="{{ old('name', $product->name) }}"
+                                                <input type="text" name="name" value="{{ old('name') }}"
                                                     class="form-control @error('name') is-invalid @enderror">
                                                 @error('name')
                                                     <small class="text-danger">{{ $message }}</small>
@@ -73,7 +71,7 @@
                                                     <div class="form-group">
                                                         <label>Jenis Aroma</label>
                                                         <input type="text" name="fragrance_family"
-                                                            value="{{ old('fragrance_family', $product->fragrance_family) }}"
+                                                            value="{{ old('fragrance_family') }}"
                                                             class="form-control @error('fragrance_family') is-invalid @enderror"
                                                             list="fragranceFamilyOptions" placeholder="Ketik atau pilih...">
                                                         <datalist id="fragranceFamilyOptions">
@@ -92,8 +90,7 @@
                                                     <div class="form-group">
                                                         <label>Volume (ml)</label>
                                                         <input type="number" name="volume_ml"
-                                                            value="{{ old('volume_ml', $product->volume_ml) }}"
-                                                            class="form-control">
+                                                            value="{{ old('volume_ml') }}" class="form-control">
                                                         @error('volume_ml')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -107,18 +104,16 @@
                                                     <div class="form-group">
                                                         <label>Target Gender</label>
                                                         <select name="gender_target" class="form-control">
+                                                            <option value="">-- Pilih Gender --</option>
                                                             <option value="male"
-                                                                {{ old('gender_target', $product->gender_target) == 'male' ? 'selected' : '' }}>
-                                                                Pria
+                                                                {{ old('gender_target') == 'male' ? 'selected' : '' }}>Pria
                                                             </option>
                                                             <option value="female"
-                                                                {{ old('gender_target', $product->gender_target) == 'female' ? 'selected' : '' }}>
-                                                                Wanita
-                                                            </option>
+                                                                {{ old('gender_target') == 'female' ? 'selected' : '' }}>
+                                                                Wanita</option>
                                                             <option value="unisex"
-                                                                {{ old('gender_target', $product->gender_target) == 'unisex' ? 'selected' : '' }}>
-                                                                Unisex
-                                                            </option>
+                                                                {{ old('gender_target') == 'unisex' ? 'selected' : '' }}>
+                                                                Unisex</option>
                                                         </select>
                                                     </div>
 
@@ -127,17 +122,14 @@
                                                         <select name="usage_time" class="form-control">
                                                             <option value="">-- Pilih Waktu --</option>
                                                             <option value="morning"
-                                                                {{ old('usage_time', $product->usage_time) == 'morning' ? 'selected' : '' }}>
-                                                                Pagi
+                                                                {{ old('usage_time') == 'morning' ? 'selected' : '' }}>Pagi
                                                             </option>
                                                             <option value="night"
-                                                                {{ old('usage_time', $product->usage_time) == 'night' ? 'selected' : '' }}>
-                                                                Malam
+                                                                {{ old('usage_time') == 'night' ? 'selected' : '' }}>Malam
                                                             </option>
                                                             <option value="all_day"
-                                                                {{ old('usage_time', $product->usage_time) == 'all_day' ? 'selected' : '' }}>
-                                                                Sepanjang Hari
-                                                            </option>
+                                                                {{ old('usage_time') == 'all_day' ? 'selected' : '' }}>
+                                                                Sepanjang Hari</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -149,17 +141,14 @@
                                                         <select name="situation" class="form-control">
                                                             <option value="">-- Pilih Situasi --</option>
                                                             <option value="indoor"
-                                                                {{ old('situation', $product->situation) == 'indoor' ? 'selected' : '' }}>
-                                                                Indoor
+                                                                {{ old('situation') == 'indoor' ? 'selected' : '' }}>Indoor
                                                             </option>
                                                             <option value="outdoor"
-                                                                {{ old('situation', $product->situation) == 'outdoor' ? 'selected' : '' }}>
-                                                                Outdoor
-                                                            </option>
+                                                                {{ old('situation') == 'outdoor' ? 'selected' : '' }}>
+                                                                Outdoor</option>
                                                             <option value="mixed"
-                                                                {{ old('situation', $product->situation) == 'mixed' ? 'selected' : '' }}>
-                                                                Campuran
-                                                            </option>
+                                                                {{ old('situation') == 'mixed' ? 'selected' : '' }}>
+                                                                Campuran</option>
                                                         </select>
                                                     </div>
 
@@ -168,13 +157,11 @@
                                                         <select name="longevity" class="form-control">
                                                             <option value="">-- Pilih Ketahanan --</option>
                                                             <option value="long_last"
-                                                                {{ old('longevity', $product->longevity) == 'long_last' ? 'selected' : '' }}>
-                                                                Tahan Lama (Seharian)
-                                                            </option>
+                                                                {{ old('longevity') == 'long_last' ? 'selected' : '' }}>
+                                                                Tahan Lama (Seharian)</option>
                                                             <option value="light_frequent"
-                                                                {{ old('longevity', $product->longevity) == 'light_frequent' ? 'selected' : '' }}>
-                                                                Ringan (Sering Semprot Ulang)
-                                                            </option>
+                                                                {{ old('longevity') == 'light_frequent' ? 'selected' : '' }}>
+                                                                Ringan (Sering Semprot Ulang)</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -182,7 +169,7 @@
 
                                             <div class="form-group">
                                                 <label>Description</label>
-                                                <textarea name="description" class="form-control editor" rows="4">{{ old('description', $product->description) }}</textarea>
+                                                <textarea name="description" class="form-control editor" rows="4">{{ old('description') }}</textarea>
                                                 @error('description')
                                                     <small class="text-danger">{{ $message }}</small>
                                                 @enderror
@@ -195,9 +182,10 @@
                                                 <label>Kategori</label>
                                                 <select name="category_id" class="form-control select2bs4"
                                                     style="width: 100%;">
+                                                    <option value="">-- Pilih Kategori --</option>
                                                     @foreach ($categories as $item)
                                                         <option value="{{ $item->id }}"
-                                                            {{ old('category_id', $product->category_id) == $item->id ? 'selected' : '' }}>
+                                                            {{ old('category_id') == $item->id ? 'selected' : '' }}>
                                                             {{ $item->name }}
                                                         </option>
                                                     @endforeach
@@ -206,14 +194,14 @@
 
                                             <div class="form-group">
                                                 <label>Harga (Rp)</label>
-                                                <input type="number" name="price"
-                                                    value="{{ old('price', $product->price) }}" class="form-control">
+                                                <input type="number" name="price" value="{{ old('price') }}"
+                                                    class="form-control">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Stok</label>
-                                                <input type="number" name="stock"
-                                                    value="{{ old('stock', $product->stock) }}" class="form-control">
+                                                <input type="number" name="stock" value="{{ old('stock') }}"
+                                                    class="form-control">
                                             </div>
 
                                             <div class="form-group">
@@ -228,18 +216,15 @@
 
                                             <div class="form-group">
                                                 <img class="image-preview rounded img-preview"
-                                                    src="{{ $product->image ? asset('storage/' . $product->image) : '/assets/img/no-image.jpg' }}"
-                                                    alt="preview">
+                                                    src="/assets/img/no-image.jpg" alt="preview">
                                             </div>
 
                                             <div class="form-group">
                                                 <label>Status</label>
                                                 <select name="enabled" class="form-control">
-                                                    <option value="1"
-                                                        {{ old('enabled', $product->enabled) == 1 ? 'selected' : '' }}>
+                                                    <option value="1" {{ old('enabled') == 1 ? 'selected' : '' }}>
                                                         Active</option>
-                                                    <option value="0"
-                                                        {{ old('enabled', $product->enabled) == 0 ? 'selected' : '' }}>
+                                                    <option value="0" {{ old('enabled') == 0 ? 'selected' : '' }}>
                                                         Inactive</option>
                                                 </select>
                                             </div>
@@ -249,7 +234,7 @@
 
                                 <!-- Footer -->
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-success col-md-3 mx-2">Update</button>
+                                    <button type="submit" class="btn btn-success col-md-3 mx-2">Create</button>
                                 </div>
                             </form>
 
@@ -260,6 +245,7 @@
         </section>
     </div>
 @endsection
+
 
 @section('script')
     <script src="/assets/js/ckeditor.js"></script>
