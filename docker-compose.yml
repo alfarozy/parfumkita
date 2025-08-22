@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  app:
+    build:
+      args:
+        user: parfumkita
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: parfumkita-app
+    container_name: parfumkita-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    ports:
+      - "8221:8022"
+    networks:
+      - parfumkita-bridge
+
+networks:
+  parfumkita-bridge:
+    external: true
