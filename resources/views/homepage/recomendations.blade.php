@@ -126,7 +126,8 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">1. Siapa nama kamu?</label>
-                                    <input type="text" name="name" value="{{ auth()->user()->name }}"
+                                    <input type="text" name="name"
+                                        value="{{ auth()->check() ? auth()->user()->name : old('name') }}"
                                         class="form-control" required>
                                 </div>
                             </div>
@@ -211,6 +212,7 @@
 
                         </div>
                         <div class="modal-footer">
+                            <a href="{{ route('homepage') }}" class="btn btn-secondary">Kembali ke halaman utama</a>
                             <button type="submit" class="btn btn-success">Lanjutkan</button>
                         </div>
                 </form>

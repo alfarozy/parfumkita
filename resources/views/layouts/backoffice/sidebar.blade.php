@@ -1,8 +1,8 @@
 <aside class="main-sidebar sidebar-dark-success elevation-4">
     <!-- Brand Logo -->
-    <a href="/" class="brand-link">
-        <img src="/backoffice/dist/img/logo/logo.png" alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
-        <span class="brand-text font-weight-light"><b>Dashboard</b></span>
+    <a href="/" class="brand-link text-center">
+        <span class="font-weight-light"><b>Dashboard
+                {{ Auth()->user()->role == 'admin' ? 'Admin' : 'Pengguna' }}</b></span>
     </a>
 
     <!-- Sidebar -->

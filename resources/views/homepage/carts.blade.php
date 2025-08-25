@@ -21,6 +21,11 @@
                         {!! session()->get('success') !!}
                     </div>
                 @endif
+                @if (session()->has('error'))
+                    <div class="alert bg-danger text-center text-white">
+                        {!! session()->get('error') !!}
+                    </div>
+                @endif
                 <div class="col-lg-9">
 
                     <div class="card">

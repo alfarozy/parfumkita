@@ -18,7 +18,7 @@ Route::delete('/carts/{slug}', [HomeController::class, 'removeCart'])->name('hom
 Route::get('/products', [HomeController::class, 'products'])->name('homepage.products');
 Route::get('/products/recomendations', [HomeController::class, 'recomendationProducts'])->name('homepage.products.recomendations');
 Route::get('/products/{slug}', [HomeController::class, 'productDetail'])->name('homepage.products.detail');
-Route::get('/checkout', [HomeController::class, 'checkout'])->name('homepage.checkout');
+Route::get('/checkout', [HomeController::class, 'checkoutPage'])->name('homepage.checkout');
 Route::post('/checkout', [HomeController::class, 'checkout'])->name('homepage.checkout.order');
 
 

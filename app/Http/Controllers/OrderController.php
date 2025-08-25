@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\RentalOrder;
 use Illuminate\Http\Request;
 
@@ -10,18 +11,18 @@ class OrderController extends Controller
     public function index()
     {
         if (auth()->user()->role === 'admin') {
-            $data = RentalOrder::with(['product'])->latest()->get();
+            $data = Order::with(['orderItems'])->latest()->get();
         } else {
-            $data = RentalOrder::with(['product'])->where('user_id', auth()->id())->latest()->get();
+            $data = Order::with(['orderItems'])->where('user_id', auth()->id())->latest()->get();
         }
         return view('backoffice.orders.index', compact('data'));
     }
     public function invoice($invoice)
     {
         if (auth()->user()->role === 'admin') {
-            $order = RentalOrder::with(['product'])->where('order_number', $invoice)->first();
+            $order = Order::with(['orderItems'])->where('order_number', $invoice)->first();
         } else {
-            $order = RentalOrder::with(['product'])->where('user_id', auth()->id())->where('order_number', $invoice)->first();
+            $order = Order::with(['orderItems'])->where('user_id', auth()->id())->where('order_number', $invoice)->first();
         }
 
         return view('backoffice.orders.invoice', compact('order'));
@@ -29,11 +30,12 @@ class OrderController extends Controller
 
     public function uploadPaymentProof(Request $request, $id)
     {
-        $order = RentalOrder::findOrFail($id);
+        $order = Order::findOrFail($id);
 
         $request->validate([
             'payment_proof' => 'required|image|mimes:jpg,jpeg,png|max:2048'
         ]);
+
 
         // simpan file
         $filePath = $request->file('payment_proof')->store('payment_proofs', 'public');
@@ -51,7 +53,7 @@ class OrderController extends Controller
         if (auth()->user()->role != 'admin') {
             return abort(404);
         }
-        $order = RentalOrder::findOrFail($id);
+        $order = Order::findOrFail($id);
 
         if ($order->payment_status !== 'waiting_confirmation') {
             return back()->with('error', 'Order ini tidak dalam status menunggu konfirmasi.');

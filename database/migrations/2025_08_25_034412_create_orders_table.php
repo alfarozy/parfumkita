@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('payment_method')->nullable();
             $table->string('payment_proof')->nullable();
             $table->bigInteger('total_price')->default(0);
+            $table->string('phone_number');
             $table->string('shipping_address')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();

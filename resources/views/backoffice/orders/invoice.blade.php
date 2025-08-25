@@ -44,17 +44,16 @@
                                         <td><b>{{ $order->order_number }}</b></td>
                                     </tr>
                                     <tr>
-                                        <th>Produk</th>
-                                        <td>{{ $order->product->name ?? '-' }}</td>
+                                        <th>Nama Pemesan</th>
+                                        <td>{{ $order->user->name ?? 'Guest' }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Jumlah</th>
-                                        <td>{{ $order->quantity }}</td>
+                                        <th>Nomor Telepon</th>
+                                        <td>{{ $order->phone_number }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Tanggal Sewa</th>
-                                        <td>{{ date('d M Y', strtotime($order->start_date)) }} -
-                                            {{ date('d M Y', strtotime($order->end_date)) }}</td>
+                                        <th>Alamat Pengiriman</th>
+                                        <td>{{ $order->shipping_address }}</td>
                                     </tr>
                                     <tr>
                                         <th>Total Harga</th>
@@ -82,41 +81,54 @@
                                             @elseif ($order->payment_status == 'waiting_confirmation')
                                                 <span class="badge bg-info">Menunggu Konfirmasi</span>
                                             @else
-                                                <span class="badge bg-danger">Pending</span>
+                                                <span class="badge bg-danger">Unpaid</span>
                                             @endif
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <th>Metode Pembayaran</th>
+                                        <td>{{ $order->payment_method ?? '-' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Catatan</th>
+                                        <td>{{ $order->notes ?? '-' }}</td>
+                                    </tr>
                                 </table>
 
+                                <h4 class="mt-4">Daftar Produk</h4>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Produk</th>
+                                            <th>Qty</th>
+                                            <th>Harga</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($order->orderItems as $item)
+                                            <tr>
+                                                <td>{{ $item->product->name ?? '-' }}</td>
+                                                <td>{{ $item->quantity }}</td>
+                                                <td>Rp{{ number_format($item->product->price, 0, ',', '.') }}
+                                                </td>
+                                                <td>Rp{{ number_format($item->price, 0, ',', '.') }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+                                {{-- Instruksi pembayaran --}}
                                 @if ($order->status == 'pending' && $order->payment_status != 'waiting_confirmation')
                                     <div class="alert alert-info mt-4">
                                         <h5>Instruksi Pembayaran</h5>
+                                        <p>Transfer ke <b>BRI</b> 5481 0103 1262 537 a.n Agung</p>
 
-                                        @if ($order->payment_method == 'bca')
-                                            <p>Silakan transfer ke rekening berikut:</p>
-                                            <ul>
-                                                <li><b>BCA</b> - 123456789 a.n PT Azam Sport Nusantara</li>
-                                            </ul>
-                                        @elseif($order->payment_method == 'bni')
-                                            <p>Silakan transfer ke rekening berikut:</p>
-                                            <ul>
-                                                <li><b>BNI</b> - 555555555 a.n PT Azam Sport Nusantara</li>
-                                            </ul>
-                                        @elseif($order->payment_method == 'mandiri')
-                                            <p>Silakan transfer ke rekening berikut:</p>
-                                            <ul>
-                                                <li><b>Mandiri</b> - 987654321 a.n PT Azam Sport Nusantara</li>
-                                            </ul>
-                                        @elseif($order->payment_method == 'bri')
-                                            <p>Silakan transfer ke rekening berikut:</p>
-                                            <ul>
-                                                <li><b>BRI</b> - 777777777 a.n PT Azam Sport Nusantara</li>
-                                            </ul>
-                                        @else
-                                            <p><i>Belum memilih metode pembayaran</i></p>
-                                        @endif
+                                        <p>Total yang harus dibayar:
+                                            <b>Rp{{ number_format($order->total_price, 0, ',', '.') }}</b>
+                                        </p>
 
-                                        <p>Setelah transfer, silakan upload bukti pembayaran di bawah.</p>
+                                        <p>Setelah transfer, upload bukti pembayaran di bawah.</p>
                                     </div>
 
                                     <form action="{{ route('user.orders.uploadPaymentProof', $order->id) }}" method="POST"
@@ -124,7 +136,12 @@
                                         @csrf
                                         <div class="mb-3">
                                             <label for="payment_proof" class="form-label">Upload Bukti Pembayaran</label>
-                                            <input type="file" class="form-control" name="payment_proof" required>
+                                            <input type="file"
+                                                class="form-control @error('payment_proof') is-invalid @enderror"
+                                                name="payment_proof" required>
+                                            @error('payment_proof')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <button type="submit" class="btn btn-primary">
                                             <i class="fa fa-upload"></i> Upload
@@ -166,15 +183,17 @@
                                             Bukti pembayaran sudah dikirim. Menunggu konfirmasi admin.
                                             <p>Jika ada kendala atau ingin konfirmasi lebih cepat, silakan hubungi admin di:
                                                 <br>
-                                                <a href="https://wa.me/6281234567890" target="_blank">+62 812-3456-7890</a>
+                                                <a href="https://wa.me/6282286456213" target="_blank">+6282286456213</a>
                                             </p>
                                         </div>
                                     @endif
                                 @elseif($order->payment_status == 'paid')
+                                    {{-- Tombol Pengembalian Produk --}}
                                     <div class="alert alert-success mt-4">
-                                        ✅ Pembayaran sudah diterima. Terima kasih.
+                                        ✅ Pembayaran sudah diterima. Terima kasih!
                                     </div>
                                 @endif
+
 
                             </div>
                         </div>

@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\RentalOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -156,7 +159,7 @@ class HomeController extends Controller
         return view('homepage.products-detail', compact('product', 'relatedProducts'));
     }
 
-    public function checkout()
+    public function checkoutPage()
     {
         if (auth()->guest()) {
             return redirect()->route('login')->with('msg', 'Silahkan login terlebih dahulu');
@@ -166,50 +169,62 @@ class HomeController extends Controller
         return view('homepage.checkout', compact('carts'));
     }
 
-    public function rentalStore(Request $request, $slug)
+    public function checkout(Request $request)
     {
-        $product = Product::where('slug', $slug)
-            ->with('category')
-            ->firstOrFail();
-
-        // Validasi input
         $request->validate([
-            'quantity' => 'required|integer|min:1',
-            'start_date' => 'required|date|after_or_equal:today',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'delivery_option' => 'required|in:pickup,delivery',
-            'delivery_address' => 'nullable|string|max:255',
-            'payment_method' => 'required|string',
-            'notes' => 'nullable|string|max:255',
-            'rental_phone' => 'required|string|max:255',
+            'name'             => 'required|string|max:255',
+            'phone'            => 'required|string|max:20',
+            'email'            => 'required|email',
+            'shipping_address' => 'required|string',
+            'notes'            => 'nullable|string',
         ]);
 
-        // Hitung total hari
-        $start = new \DateTime($request->start_date);
-        $end   = new \DateTime($request->end_date);
-        $days  = $start->diff($end)->days + 1;
+        // Ambil cart user
+        $cart = Cart::where('user_id', auth()->id())->latest()->get();
+        if ($cart->isEmpty()) {
+            return redirect()->route('homepage.carts')
+                ->with('error', 'Keranjang kosong, tidak bisa checkout.');
+        }
 
-        // Hitung total biaya
-        $deliveryCost = $request->delivery_option === 'delivery' ? 20000 : 0;
-        $totalCost    = ($product->price * $request->quantity * $days) + $deliveryCost;
+        DB::beginTransaction();
+        try {
+            // Hitung total harga
+            $totalPrice = $cart->sum(fn($item) => $item->quantity * $item->product->price);
 
-        // Simpan data rental
-        $rental = RentalOrder::create([
-            'user_id'          => auth()->id(),
-            'order_number'    => 'AZM-' . date('Ymd') . '-' . str_pad(RentalOrder::count() + 1, 3, '0', STR_PAD_LEFT),
-            'product_id'       => $product->id,
-            'quantity'         => $request->quantity,
-            'rental_phone'     => $request->rental_phone,
-            'start_date'       => $request->start_date,
-            'end_date'         => $request->end_date,
-            'delivery_option'  => $request->delivery_option,
-            'delivery_address' => $request->delivery_option === 'delivery' ? $request->delivery_address : null,
-            'payment_method'   => $request->payment_method,
-            'notes'            => $request->notes,
-            'total_price'       => $totalCost,
-            'status'           => 'pending', // default status
-        ]);
-        //> return ke detail invoice
-        return redirect()->route('user.orders.invoice', $rental->order_number);
+            // Buat order utama
+            $order = Order::create([
+                'user_id'          => auth()->id(), // null kalau guest checkout
+                'order_number'     => strtoupper(Str()->random(10)),
+                'status'           => 'pending',
+                'payment_status'   => 'unpaid',
+                'payment_method'   => 'BANK BRI',
+                'payment_proof'    => null,
+                'total_price'      => $totalPrice,
+                'phone_number'     => $request->phone,
+                'shipping_address' => $request->shipping_address,
+                'notes'            => $request->notes,
+            ]);
+
+            // Simpan detail pesanan
+            foreach ($cart as $item) {
+                OrderDetail::create([
+                    'order_id'   => $order->id,
+                    'product_id' => $item->product_id,
+                    'quantity'   => $item->quantity,
+                    'price'      => $item->quantity * $item->product->price,
+                ]);
+            }
+
+            // Bersihkan cart setelah checkout
+            Cart::where('user_id', auth()->id())->delete();
+
+            DB::commit();
+
+            return redirect()->route('user.orders.invoice', $order->order_number)
+                ->with('success', 'Pesanan berhasil dibuat!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal membuat pesanan: ' . $e->getMessage());
+        }
     }
 }

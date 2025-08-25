@@ -56,7 +56,6 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Order #</th>
-                                            <th>Produk</th>
                                             <th>User</th>
                                             <th>Tanggal</th>
                                             <th>Total</th>
@@ -70,7 +69,6 @@
                                             <tr>
                                                 <td class="text-center">{{ $loop->iteration }}</td>
                                                 <td><b>{{ $item->order_number }}</b></td>
-                                                <td>{{ $item->product->name ?? '-' }}</td>
                                                 <td>{{ $item->user->name ?? '-' }}</td>
                                                 <td>
                                                     {{ date('d M Y', strtotime($item->start_date)) }} -
@@ -85,8 +83,7 @@
                                                     @elseif ($item->status == 'cancelled')
                                                         <span class="badge bg-danger">Cancelled</span>
                                                     @else
-                                                        <span
-                                                            class="badge bg-secondary">{{ ucfirst($item->status) }}</span>
+                                                        <span class="badge bg-secondary">{{ ucfirst($item->status) }}</span>
                                                     @endif
                                                 </td>
                                                 <td>

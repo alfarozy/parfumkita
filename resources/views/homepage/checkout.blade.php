@@ -13,40 +13,64 @@
                     <article class="card">
                         <div class="content-body">
                             <h5 class="card-title"> Checkout </h5>
+                            @if (session()->has('error'))
+                                <div class="alert bg-danger text-center text-white">
+                                    {!! session()->get('error') !!}
+                                </div>
+                            @endif
                             <form action="{{ route('homepage.checkout.order') }}" method="POST">
                                 @csrf
                                 <div class="row">
                                     <!-- Nama lengkap -->
                                     <div class="col-12 mb-3">
                                         <label class="form-label">Nama Lengkap</label>
-                                        <input type="text" name="name" class="form-control" placeholder="Nama lengkap"
-                                            required>
+                                        <input type="text" name="name"
+                                            class="form-control @error('name') is-invalid @enderror"
+                                            placeholder="Nama lengkap" value="{{ old('name') }}" required>
+                                        @error('name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div> <!-- col end.// -->
 
                                     <!-- Nomor Telepon -->
                                     <div class="col-6 mb-3">
                                         <label class="form-label">Phone</label>
-                                        <input type="text" name="phone" value="62" class="form-control"
+                                        <input type="text" name="phone" value="{{ old('phone', '62') }}"
+                                            class="form-control @error('phone') is-invalid @enderror"
                                             placeholder="Nomor WhatsApp" required>
+                                        @error('phone')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div> <!-- col end.// -->
 
                                     <!-- Email -->
                                     <div class="col-6 mb-3">
                                         <label class="form-label">Email</label>
-                                        <input type="email" name="email" class="form-control"
-                                            placeholder="example@gmail.com" required>
+                                        <input type="email" name="email"
+                                            class="form-control @error('email') is-invalid @enderror"
+                                            placeholder="example@gmail.com" value="{{ old('email') }}" required>
+                                        @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div> <!-- col end.// -->
 
                                     <!-- Alamat Pengiriman -->
                                     <div class="mb-3">
                                         <label class="form-label">Alamat Pengiriman</label>
-                                        <textarea name="shipping_address" class="form-control" rows="3" required></textarea>
+                                        <textarea name="shipping_address" class="form-control @error('shipping_address') is-invalid @enderror" rows="3"
+                                            required>{{ old('shipping_address') }}</textarea>
+                                        @error('shipping_address')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div> <!-- col end.// -->
 
                                     <!-- Catatan -->
                                     <div class="mb-3">
                                         <label class="form-label">Catatan (opsional)</label>
-                                        <textarea name="notes" class="form-control" rows="2"></textarea>
+                                        <textarea name="notes" class="form-control @error('notes') is-invalid @enderror" rows="2">{{ old('notes') }}</textarea>
+                                        @error('notes')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div> <!-- col end.// -->
 
                                     <div class="float-end">
@@ -55,6 +79,7 @@
                                     </div>
                                 </div> <!-- row.// -->
                             </form>
+
                         </div>
                     </article> <!-- card end.// -->
 

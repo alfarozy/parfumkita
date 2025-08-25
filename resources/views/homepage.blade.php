@@ -53,11 +53,16 @@
                                     </span>
                                 </a>
                             @endif
-
-                            <a href="{{ route('homepage.carts') }}" class="btn btn-light">
-                                <i class="fa fa-shopping-cart"></i> <span
-                                    class="ms-1 badge bg-danger">{{ \App\Models\Cart::where('user_id', auth()->user()->id)->count() }}</span>
-                            </a>
+                            @if (auth()->guest())
+                                <a href="{{ route('login') }}" class="btn btn-light">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                            @else
+                                <a href="{{ route('homepage.carts') }}" class="btn btn-light">
+                                    <i class="fa fa-shopping-cart"></i> <span
+                                        class="ms-1 badge bg-danger">{{ \App\Models\Cart::where('user_id', auth()->user()->id)->count() }}</span>
+                                </a>
+                            @endif
                         </div>
                     </div> <!-- col end.// -->
                     <div class="col-lg-5 col-md-12 col-12">
