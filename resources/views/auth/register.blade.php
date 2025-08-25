@@ -17,7 +17,7 @@
                 @endif
 
                 <div class="text-center my-4 mb-5">
-                    <img class="col-4" src="frontoffice/images/logo.png" alt="Logo">
+                    <img class="col-4" src="/frontoffice/images/logo.png" alt="Logo">
                 </div>
 
                 <form action="{{ route('register') }}" method="post">

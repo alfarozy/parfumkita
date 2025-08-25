@@ -18,7 +18,7 @@
                     </div>
                 @endif
                 <div class="text-center my-4 mb-5">
-                    <img class="col-6" src="frontoffice/images/logo.png" alt="" srcset="">
+                    <img class="col-6" src="/frontoffice/images/logo.png" alt="" srcset="">
                 </div>
                 <form action="{{ route('login') }}" method="post">
                     @csrf

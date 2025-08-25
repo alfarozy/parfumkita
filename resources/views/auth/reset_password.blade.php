@@ -17,7 +17,7 @@
                     </div>
                 @endif
                 <div class="text-center my-4 mb-5">
-                    <img class="col-4" src="frontoffice/images/logo.png" alt="" srcset="">
+                    <img class="col-4" src="/frontoffice/images/logo.png" alt="" srcset="">
                 </div>
                 <p class="login-box-msg">Silahkan inputkan password baru anda</p>
 
