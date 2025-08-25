@@ -26,7 +26,7 @@
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">
-                        <img src="/frontoffice/img/logo.png" alt="logo alfarozy.id" srcset="" />
+                        <img src="frontoffice/images/logo.png" alt="logo alfarozy.id" srcset="" />
                     </a>
                     <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"

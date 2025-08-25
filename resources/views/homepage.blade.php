@@ -12,6 +12,7 @@
     <!-- Bootstrap css -->
     <link href="/frontoffice/css/bootstrap.css?v=2.0" rel="stylesheet" type="text/css" />
 
+    <link rel="shortcut icon" href="frontoffice/images/logo.png" type="image/x-icon">
     <!-- Custom css -->
     <link href="/frontoffice/css/ui.css?v=2.0" rel="stylesheet" type="text/css" />
     <link href="/frontoffice/css/responsive.css?v=2.0" rel="stylesheet" type="text/css" />
