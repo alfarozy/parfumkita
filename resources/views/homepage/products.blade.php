@@ -87,24 +87,31 @@
                     </header>
 
                     <div class="row">
-                        @foreach ($products as $product)
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <figure class="card card-product-grid">
-                                    <a href="{{ route('homepage.products.detail', $product->slug) }}">
-                                        <img class="col-12 image-thumbnail" src="{{ $product->getThumbnail() }}">
-                                    </a>
-                                    <figcaption class="info-wrap border-top">
-                                        <div class="price-wrap">
-                                            <strong
-                                                class="price">Rp.{{ number_format($product->price, 0, ',', '.') }}</strong>
-                                        </div>
-                                        <p class="title mb-2">{{ $product->name }}</p>
-                                        <a href="{{ route('homepage.products.detail', $product->slug) }}"
-                                            class="btn btn-primary col-12">Detail</a>
-                                    </figcaption>
-                                </figure>
+                        @if ($products->count() == 0)
+                            <div class="col-12 text-center">
+                                <h2 class="text-muted">Belum ada produk yang tersedia</h2>
+
                             </div>
-                        @endforeach
+                        @else
+                            @foreach ($products as $product)
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <figure class="card card-product-grid">
+                                        <a href="{{ route('homepage.products.detail', $product->slug) }}">
+                                            <img class="col-12 image-thumbnail" src="{{ $product->getThumbnail() }}">
+                                        </a>
+                                        <figcaption class="info-wrap border-top">
+                                            <div class="price-wrap">
+                                                <strong
+                                                    class="price">Rp.{{ number_format($product->price, 0, ',', '.') }}</strong>
+                                            </div>
+                                            <p class="title mb-2">{{ $product->name }}</p>
+                                            <a href="{{ route('homepage.products.detail', $product->slug) }}"
+                                                class="btn btn-primary col-12">Detail</a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
 
                     <hr>

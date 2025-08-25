@@ -18,7 +18,11 @@
     <!-- ============== SECTION CONTENT ============== -->
     <section class="padding-y">
         <div class="container">
-
+            @if (session()->has('success'))
+                <div class="alert bg-success text-center text-white">
+                    {!! session()->get('success') !!}
+                </div>
+            @endif
             <div class="row">
                 <aside class="col-lg-6">
                     <article class="gallery-wrap">
@@ -98,33 +102,37 @@
 
                         <hr>
 
-                        <div class="row mb-4">
-                            <div class="col-md-4 col-6 mb-3">
-                                <label class="form-label d-block">Jumlah</label>
-                                <div class="input-group input-spinner">
-                                    <button class="btn btn-icon btn-light btn-qty-minus" type="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#999"
-                                            viewBox="0 0 24 24">
-                                            <path d="M19 13H5v-2h14v2z"></path>
-                                        </svg>
-                                    </button>
-                                    <input class="form-control text-center qty-input" type="number" name="quantity"
-                                        value="1" min="1" max="{{ $product->stock }}">
-                                    <button class="btn btn-icon btn-light btn-qty-plus" type="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#999"
-                                            viewBox="0 0 24 24">
-                                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
-                                        </svg>
-                                    </button>
-                                </div> <!-- input-group.// -->
-                                <small class="text-muted">Stok tersedia: {{ $product->stock }}</small>
+                        <form class="d-inline" action="{{ route('homepage.addToCarts', $product->slug) }}" method="POST">
+                            @csrf
+
+                            <div class="row mb-4">
+                                <div class="col-md-4 col-6 mb-3">
+                                    <label class="form-label d-block">Jumlah</label>
+                                    <div class="input-group input-spinner">
+                                        <button class="btn btn-icon btn-light btn-qty-minus" type="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                fill="#999" viewBox="0 0 24 24">
+                                                <path d="M19 13H5v-2h14v2z"></path>
+                                            </svg>
+                                        </button>
+                                        <input class="form-control text-center qty-input" type="number" name="quantity"
+                                            value="1" min="1" max="{{ $product->stock }}">
+                                        <button class="btn btn-icon btn-light btn-qty-plus" type="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                fill="#999" viewBox="0 0 24 24">
+                                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
+                                            </svg>
+                                        </button>
+                                    </div> <!-- input-group.// -->
+                                    <small class="text-muted">Stok tersedia: {{ $product->stock }}</small>
+                                </div>
                             </div>
-                        </div>
 
 
-                        <a href="#" class="btn  btn-warning"> Beli sekarang </a>
-                        <a href="#" class="btn  btn-primary"> <i class="me-1 fa fa-shopping-basket"></i>
-                            Tambahkan keranjang </a>
+                            <button class="btn  btn-primary btn-add-to-cart">
+                                <i class="me-1 fa fa-shopping-basket"></i> Tambahkan keranjang
+                            </button>
+                        </form>
 
                     </article> <!-- product-info-aside .// -->
                 </main> <!-- col.// -->

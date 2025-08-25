@@ -13,8 +13,8 @@
                     Dari koleksi eksklusif hingga best seller, semua diracik untuk mendekatkan yang jauh
                     dan melekatkan yang dekat, dalam satu semprotan.
                 </p>
-                <a href="#" class="btn btn-warning"> Belanja Sekarang </a>
-                <a href="#" class="btn btn-light"> Rekomendasi Terbaik </a>
+                <a href="{{ route('homepage.products') }}" class="btn btn-warning"> Belanja Sekarang </a>
+                <a href="{{ route('homepage.products.recomendations') }}" class="btn btn-light"> Rekomendasi Terbaik </a>
             </article>
 
 
@@ -42,12 +42,8 @@
                                 </div> <!-- price-wrap.// -->
                                 <p class="title mb-2">{{ $product->name }}</p>
 
-                                <div class="d-flex justify-content-between">
-                                    <a href="#" class="btn btn-primary btn-icon"><i
-                                            class="fa fa-shopping-cart"></i></a>
-                                    <a href="{{ route('homepage.products.detail', $product->slug) }}"
-                                        class="btn btn-light col-8">Detail</a>
-                                </div>
+                                <a href="{{ route('homepage.products.detail', $product->slug) }}"
+                                    class="btn btn-light col-12">Detail</a>
                             </figcaption>
                         </figure>
                     </div> <!-- col end.// -->

@@ -54,15 +54,17 @@
                                 </a>
                             @endif
 
-                            <a data-bs-toggle="offcanvas" href="#offcanvas_cart" class="btn btn-light">
-                                <i class="fa fa-shopping-cart"></i> <span class="ms-1 badge bg-danger">1</span>
+                            <a href="{{ route('homepage.carts') }}" class="btn btn-light">
+                                <i class="fa fa-shopping-cart"></i> <span
+                                    class="ms-1 badge bg-danger">{{ \App\Models\Cart::where('user_id', auth()->user()->id)->count() }}</span>
                             </a>
                         </div>
                     </div> <!-- col end.// -->
                     <div class="col-lg-5 col-md-12 col-12">
-                        <form action="#" class="">
+                        <form action="{{ route('homepage.products') }}" class="">
                             <div class="input-group">
-                                <input type="search" class="form-control" style="width:55%" placeholder="Search">
+                                <input type="search" name="search" class="form-control" style="width:55%"
+                                    placeholder="Search" value="{{ request('search') }}">
 
                                 <button class="btn btn-primary">
                                     <i class="fa fa-search"></i>
@@ -97,7 +99,8 @@
                                 Wanita </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('homepage.products', ['type' => 'best']) }}"> Best Seller
+                            <a class="nav-link" href="{{ route('homepage.products', ['type' => 'best']) }}"> Best
+                                Seller
                             </a>
                         </li>
                     </ul>

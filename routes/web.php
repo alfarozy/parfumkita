@@ -12,10 +12,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
+Route::get('/carts', [HomeController::class, 'carts'])->name('homepage.carts');
+Route::post('/carts/{slug}', [HomeController::class, 'addToCart'])->name('homepage.addToCarts');
+Route::delete('/carts/{slug}', [HomeController::class, 'removeCart'])->name('homepage.carts.destroy');
 Route::get('/products', [HomeController::class, 'products'])->name('homepage.products');
-Route::get('/products/recomendations', [HomeController::class, 'products'])->name('homepage.products.recomendations');
+Route::get('/products/recomendations', [HomeController::class, 'recomendationProducts'])->name('homepage.products.recomendations');
 Route::get('/products/{slug}', [HomeController::class, 'productDetail'])->name('homepage.products.detail');
-Route::post('/checkout/{slug}', [HomeController::class, 'rentalStore'])->name('rental.store');
+Route::get('/checkout', [HomeController::class, 'checkout'])->name('homepage.checkout');
+Route::post('/checkout', [HomeController::class, 'checkout'])->name('homepage.checkout.order');
 
 
 Route::prefix('dashboard')->group(function () {
