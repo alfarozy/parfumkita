@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\RentalOrder;
 use App\Models\User;
@@ -16,8 +17,8 @@ class DashboardController extends Controller
         $data = [
             'product' => Product::count(),   // jumlah produk
             'user' => User::count(),         // jumlah user
-            'rental' => RentalOrder::where('status', 'confirmed')->count(),     // jumlah data disewakan
-            'income' => RentalOrder::where('status', 'confirmed')->sum('total_price'), // total pemasukan
+            'transactions' => Order::where('status', 'confirmed')->count(),     // jumlah data disewakan
+            'income' => Order::where('status', 'confirmed')->sum('total_price'), // total pemasukan
         ];
         if (auth()->user()->role != 'admin') {
             return redirect()->route('user.orders.index');

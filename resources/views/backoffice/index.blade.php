@@ -53,8 +53,8 @@
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>{{ $rental }}</h3>
-                                <p>Disewakan</p>
+                                <h3>{{ $transactions }}</h3>
+                                <p>Total transaksi</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-pie-graph"></i>
