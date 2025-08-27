@@ -56,7 +56,8 @@
                                         <tr>
                                             <th width="5%">No</th>
                                             <th width="18%">Thumbnail</th>
-                                            <th width="52%">Produk</th>
+                                            <th width="35%">Produk</th>
+                                            <th width="27%">Price</th>
                                             <th width="10%" class="text-center">Status</th>
                                             <th width="15%" class="text-center">Action</th>
                                         </tr>
@@ -78,6 +79,9 @@
                                                     <br>
                                                     <span class="badge bg-secondary border mr-2">{{ $item->category->name }}
                                                     </span>
+                                                </td>
+                                                <td class="align-middle">
+                                                    Rp{{ number_format($item->price, 0, ',', '.') }}
                                                 </td>
                                                 <td class="text-center align-middle">
                                                     @if ($item->enabled == 1)
