@@ -1,5 +1,5 @@
 @extends('layouts.backoffice')
-@section('title', 'Rental Orders')
+@section('title', 'Orders')
 @section('content')
 
     <div class="content-wrapper">

@@ -80,6 +80,12 @@ class HomeController extends Controller
             }
         }
 
+        if ($request->has('type') && $request->type == 'best') {
+            $query->whereHas('category', function ($q) {
+                $q->where('slug', 'best-seller');
+            });
+        }
+
         // Jika ada pencarian
         if ($request->has('search')) {
             $query->where('name', 'LIKE', '%' . $request->search . '%');
