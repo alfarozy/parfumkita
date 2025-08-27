@@ -16,7 +16,7 @@
                         {!! session()->get('success') !!}
                     </div>
                 @endif
-                <div class="text-center my-4 mb-5">
+                <div class="text-center my-4">
                     <img class="col-4" src="/frontoffice/images/logo.png" alt="" srcset="">
                 </div>
                 <p class="login-box-msg">Silahkan inputkan password baru anda</p>
