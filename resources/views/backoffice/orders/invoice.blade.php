@@ -93,6 +93,10 @@
                                         <th>Catatan</th>
                                         <td>{{ $order->notes ?? '-' }}</td>
                                     </tr>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d F Y') }}</td>
+                                    </tr>
                                 </table>
 
                                 <h4 class="mt-4">Daftar Produk</h4>

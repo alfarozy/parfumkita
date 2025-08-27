@@ -57,10 +57,10 @@
                                             <th>No</th>
                                             <th>Order #</th>
                                             <th>User</th>
-                                            <th>Tanggal</th>
                                             <th>Total</th>
                                             <th>Status</th>
                                             <th>Payment</th>
+                                            <th>Tanggal</th>
                                             <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
@@ -70,10 +70,7 @@
                                                 <td class="text-center">{{ $loop->iteration }}</td>
                                                 <td><b>{{ $item->order_number }}</b></td>
                                                 <td>{{ $item->user->name ?? '-' }}</td>
-                                                <td>
-                                                    {{ date('d M Y', strtotime($item->start_date)) }} -
-                                                    {{ date('d M Y', strtotime($item->end_date)) }}
-                                                </td>
+
                                                 <td>Rp{{ number_format($item->total_price, 0, ',', '.') }}</td>
                                                 <td>
                                                     @if ($item->status == 'pending')
@@ -92,6 +89,9 @@
                                                     @else
                                                         <span class="badge bg-danger">Unpaid</span>
                                                     @endif
+                                                </td>
+                                                <td>
+                                                    {{ date('d M Y', strtotime($item->created_at)) }}
                                                 </td>
                                                 <td class="text-center">
                                                     <a href="{{ route('user.orders.invoice', $item->order_number) }}"
