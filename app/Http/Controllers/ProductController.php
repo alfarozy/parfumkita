@@ -78,14 +78,23 @@ class ProductController extends Controller
     {
         // Validasi (image opsional)
         $attr = $request->validate([
-            'name'        => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'category_id' => 'required|exists:categories,id',
-            'price'       => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
-            'unit'        => 'required|string',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'enabled'     => 'required|boolean',
+            'name'             => 'required|string|max:255',
+            'description'      => 'nullable|string',
+            'category_id'      => 'required|exists:categories,id',
+            'price'            => 'required|numeric|min:0',
+            'stock'            => 'required|integer|min:0',
+
+            // khusus parfum
+            'fragrance_family' => 'nullable|string|max:100',
+            'volume_ml'        => 'required|integer|min:1',
+            'gender_target'    => 'required|in:male,female,unisex',
+            'usage_time'       => 'nullable|in:morning,night,all_day',
+            'situation'        => 'nullable|in:indoor,outdoor,mixed',
+            'longevity'        => 'nullable|in:long_last,light_frequent',
+
+            // image
+            'image'            => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'enabled'          => 'required|boolean',
         ]);
 
         // Slug
