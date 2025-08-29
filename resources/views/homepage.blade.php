@@ -146,7 +146,7 @@
     </header> <!-- section-header end.// -->
 
     @yield('content')
-    <a href="https://wa.me/6282286456213?text=Halo%20kak,%20saya%20tertarik%20mohon%20informasi%20lebih%20lanjut."
+    <a href="https://wa.me/6282268478057?text=Halo%20kak,%20saya%20tertarik%20mohon%20informasi%20lebih%20lanjut."
         target="_blank" class="whatsapp-float">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
     </a>
