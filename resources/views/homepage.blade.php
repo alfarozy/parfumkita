@@ -26,6 +26,35 @@
             height: 250px;
             object-position: center;
         }
+
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #20ba5a;
+        }
+
+        .whatsapp-float img {
+            width: 35px;
+            height: 35px;
+        }
     </style>
 </head>
 
@@ -117,6 +146,10 @@
     </header> <!-- section-header end.// -->
 
     @yield('content')
+    <a href="https://wa.me/6282286456213?text=Halo%20kak,%20saya%20tertarik%20mohon%20informasi%20lebih%20lanjut."
+        target="_blank" class="whatsapp-float">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" />
+    </a>
     <footer class="section-footer bg-gray-light">
         <div class="container">
             <section class="footer-main padding-y">
